@@ -4,6 +4,8 @@ module DesignSystem.Tokens
         , Mappings
         , mapToKey
         , hasValue
+        , setValue
+        , setMapping
         , Tokens(..)
         )
 
@@ -29,6 +31,20 @@ type alias ValuesLookup a =
 
 type alias Mappings a =
     List ( String, MappingOrValue a )
+
+
+setValue : String -> a -> Tokens a -> Tokens a
+setValue key newValue tokens =
+    case tokens of
+        Tokens mappingsLookup valuesLookup ->
+            Tokens mappingsLookup (Dict.update key (\v -> Just newValue) valuesLookup)
+
+
+setMapping : String -> MappingOrValue a -> Tokens a -> Tokens a
+setMapping key newMapping tokens =
+    case tokens of
+        Tokens mappingsLookup valuesLookup ->
+            Tokens (Dict.update key (\m -> Just newMapping) mappingsLookup) valuesLookup
 
 
 mapToKey : String -> MappingOrValue a

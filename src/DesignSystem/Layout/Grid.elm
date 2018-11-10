@@ -1,20 +1,20 @@
-module DesignSystem.Layout.Grid exposing (..)
+module DesignSystem.Layout.Grid exposing (grid)
 
-import Html.Attributes
 import Element exposing (..)
+import Html.Attributes exposing (style)
 
 
 grid : Int -> Int -> Int -> List (Element msg) -> Element msg
 grid numPerRow spacingX spacingY items =
     let
         gridTemplateColumns =
-            "repeat(" ++ (toString numPerRow) ++ ", 1fr)"
+            "repeat(" ++ String.fromInt numPerRow ++ ", 1fr)"
 
         gridColumnGap =
-            (toString spacingX) ++ "px"
+            String.fromInt spacingX ++ "px"
 
         gridRowGap =
-            (toString spacingY) ++ "px"
+            String.fromInt spacingY ++ "px"
 
         griddedItems =
             List.map
@@ -23,15 +23,11 @@ grid numPerRow spacingX spacingY items =
                 )
                 items
     in
-        row
-            [ (Html.Attributes.style
-                [ ( "display", "grid" )
-                , ( "grid-template-columns", gridTemplateColumns )
-                , ( "align-items", "center" )
-                , ( "grid-row-gap", gridRowGap )
-                , ( "grid-column-gap", gridColumnGap )
-                ]
-              )
-                |> htmlAttribute
-            ]
-            griddedItems
+    row
+        [ style "display" "grid" |> htmlAttribute
+        , style "grid-template-columns" gridTemplateColumns |> htmlAttribute
+        , style "align-items" "center" |> htmlAttribute
+        , style "grid-row-gap" gridRowGap |> htmlAttribute
+        , style "grid-column-gap" gridColumnGap |> htmlAttribute
+        ]
+        griddedItems

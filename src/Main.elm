@@ -1,20 +1,22 @@
-module Main exposing (..)
+module Main exposing (Model, Msg(..), cards, cardsView, init, main, pageThemeMappings, update, view)
 
-import DesignSystem.Tokens exposing (..)
-import DesignSystem.Theme as Theme exposing (..)
-import DesignSystem.Components.Card as Card exposing (..)
+import Browser exposing (Document)
 import DesignSystem.Components.Button as Button
-import DesignSystem.Components.Tag as Tag
+import DesignSystem.Components.Card as Card exposing (..)
 import DesignSystem.Components.Headers as Headers exposing (..)
-import Html exposing (Html)
+import DesignSystem.Components.Tag as Tag
+import DesignSystem.Editor as Editor
 import DesignSystem.Layout.Grid exposing (grid)
+import DesignSystem.Theme as Theme exposing (..)
+import DesignSystem.Tokens as Tokens exposing (..)
 import Element exposing (..)
 import Element.Background as Background
+import Html exposing (Html, div)
 
 
-main : Program Never Model Msg
+main : Program () Model Msg
 main =
-    Html.program
+    Browser.document
         { init = init
         , view = view
         , update = update
@@ -27,11 +29,12 @@ type alias Model =
 
 
 type Msg
-    = NoOp
+    = UpdateSpaceMapping String
+    | UpdateTypeFaceValue String
 
 
-init : ( Model, Cmd Msg )
-init =
+init : () -> ( Model, Cmd Msg )
+init flags =
     ( { theme =
             Theme.defaultWithMappings
                 [ pageThemeMappings
@@ -65,18 +68,52 @@ pageThemeMappings =
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    ( model, Cmd.none )
+    case msg of
+        UpdateSpaceMapping newValue ->
+            let
+                theme =
+                    model.theme
+
+                updatedTheme =
+                    { theme
+                        | spaces =
+                            theme.spaces
+                                |> Tokens.setMapping "primaryButtonPaddingX" (mapToKey newValue)
+                    }
+            in
+            ( { model | theme = updatedTheme }
+            , Cmd.none
+            )
+
+        UpdateTypeFaceValue newValue ->
+            let
+                theme =
+                    model.theme
+
+                updatedTheme =
+                    { theme
+                        | typeFaces =
+                            theme.typeFaces
+                                |> Tokens.setValue "sans1" [ newValue ]
+                    }
+            in
+            ( { model | theme = updatedTheme }
+            , Cmd.none
+            )
 
 
-view : Model -> Html Msg
+view : Model -> Document Msg
 view model =
     let
         theme =
             model.theme
     in
-        Element.layout
+    { title = "Design system"
+    , body =
+        [ Element.layout
             [ padding (spaceFor theme "pagePadding")
             , Background.color (colorFor theme "pageBg")
+            , inFront <| Editor.editor theme
             ]
             (el
                 [ width fill
@@ -84,11 +121,13 @@ view model =
                 ]
                 (cardsView theme cards)
             )
+        ]
+    }
 
 
 cardsView : Theme -> List Card -> Element msg
-cardsView theme cards =
-    List.map (cardView theme) cards
+cardsView theme theCards =
+    List.map (cardView theme) theCards
         |> grid 3
             (spaceFor theme "cardsSpacingX")
             (spaceFor theme "cardsSpacingY")

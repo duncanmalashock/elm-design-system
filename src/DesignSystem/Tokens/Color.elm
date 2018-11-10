@@ -1,11 +1,11 @@
-module DesignSystem.Tokens.Color exposing (..)
+module DesignSystem.Tokens.Color exposing (defaultColorTokens)
 
 import DesignSystem.Tokens exposing (..)
 import Dict
-import Color
+import Element exposing (Color, rgb255)
 
 
-defaultColorTokens : Mappings Color.Color -> Tokens Color.Color
+defaultColorTokens : Mappings Element.Color -> Tokens Element.Color
 defaultColorTokens mappings =
     let
         mappingsLookup =
@@ -14,21 +14,21 @@ defaultColorTokens mappings =
 
         valuesLookup =
             Dict.fromList
-                [ ( "black", Color.rgb 41 41 41 )
-                , ( "gray-d3", Color.rgb 71 71 71 )
-                , ( "gray-d2", Color.rgb 102 102 102 )
-                , ( "gray-d1", Color.rgb 184 184 184 )
-                , ( "gray", Color.rgb 210 210 210 )
-                , ( "gray-l1", Color.rgb 228 228 228 )
-                , ( "gray-l2", Color.rgb 240 240 240 )
-                , ( "gray-l3", Color.rgb 250 250 250 )
-                , ( "white", Color.rgb 255 255 255 )
-                , ( "primary", Color.rgb 69 107 161 )
-                , ( "secondary", Color.rgb 84 94 106 )
-                , ( "success", Color.rgb 92 25 172 )
-                , ( "warning", Color.rgb 219 227 117 )
-                , ( "error", Color.rgb 214 49 117 )
-                , ( "highlight", Color.rgb 223 245 247 )
+                [ ( "black", rgb255 41 41 41 )
+                , ( "gray-d3", rgb255 71 71 71 )
+                , ( "gray-d2", rgb255 102 102 102 )
+                , ( "gray-d1", rgb255 184 184 184 )
+                , ( "gray", rgb255 210 210 210 )
+                , ( "gray-l1", rgb255 228 228 228 )
+                , ( "gray-l2", rgb255 240 240 240 )
+                , ( "gray-l3", rgb255 250 250 250 )
+                , ( "white", rgb255 255 255 255 )
+                , ( "primary", rgb255 69 107 161 )
+                , ( "secondary", rgb255 84 94 106 )
+                , ( "success", rgb255 92 25 172 )
+                , ( "warning", rgb255 219 227 117 )
+                , ( "error", rgb255 214 49 117 )
+                , ( "highlight", rgb255 223 245 247 )
                 ]
     in
-        Tokens mappingsLookup valuesLookup
+    Tokens mappingsLookup valuesLookup

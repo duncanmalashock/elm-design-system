@@ -12,9 +12,9 @@ defaultTypeTrackingTokens mappings =
 
         valuesLookup =
             Dict.fromList
-                [ ( "tight", -0.5 )
+                [ ( "tight", -0.75 )
                 , ( "normal", 0.0 )
-                , ( "loose", 0.5 )
+                , ( "loose", 0.75 )
                 ]
     in
         Tokens mappingsLookup valuesLookup

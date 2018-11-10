@@ -1,32 +1,30 @@
-module DesignSystem.Theme
-    exposing
-        ( Theme
-        , ThemeMappings
-        , defaultWithMappings
-        , colorFor
-        , spaceFor
-        , typeFaceFor
-        , typeSizeFor
-        , typeWeightFor
-        , typeTrackingFor
-        , borderRadiusFor
-        )
+module DesignSystem.Theme exposing
+    ( Theme
+    , ThemeMappings
+    , borderRadiusFor
+    , colorFor
+    , defaultWithMappings
+    , spaceFor
+    , typeFaceFor
+    , typeSizeFor
+    , typeTrackingFor
+    , typeWeightFor
+    )
 
-import DesignSystem.Tokens exposing (valueForKey, Tokens(..), Mappings)
+import DesignSystem.Tokens exposing (Mappings, Tokens(..), valueForKey)
+import DesignSystem.Tokens.Border.Radius exposing (defaultBorderRadiusTokens)
 import DesignSystem.Tokens.Color exposing (defaultColorTokens)
 import DesignSystem.Tokens.Space exposing (defaultSpaceTokens)
-import DesignSystem.Tokens.Typography.Size exposing (defaultTypeSizeTokens)
 import DesignSystem.Tokens.Typography.Face exposing (defaultTypeFaceTokens)
-import DesignSystem.Tokens.Typography.Weight as Weight exposing (Weight(..), defaultTypeWeightTokens)
+import DesignSystem.Tokens.Typography.Size exposing (defaultTypeSizeTokens)
 import DesignSystem.Tokens.Typography.Tracking exposing (defaultTypeTrackingTokens)
-import DesignSystem.Tokens.Border.Radius exposing (defaultBorderRadiusTokens)
-import Color
-import Element
+import DesignSystem.Tokens.Typography.Weight as Weight exposing (Weight(..), defaultTypeWeightTokens)
+import Element exposing (Color, rgb255)
 import Element.Font
 
 
 type alias Theme =
-    { colors : Tokens Color.Color
+    { colors : Tokens Color
     , spaces : Tokens Int
     , typeSizes : Tokens Int
     , typeFaces : Tokens (List String)
@@ -37,7 +35,7 @@ type alias Theme =
 
 
 type alias ThemeMappings =
-    { colors : Mappings Color.Color
+    { colors : Mappings Color
     , spaces : Mappings Int
     , typeSizes : Mappings Int
     , typeFaces : Mappings (List String)
@@ -84,22 +82,22 @@ defaultWithMappings mappingsList =
         combinedMappings =
             List.foldl concatenateMappings emptyMappings mappingsList
     in
-        { colors = defaultColorTokens combinedMappings.colors
-        , spaces = defaultSpaceTokens combinedMappings.spaces
-        , typeSizes = defaultTypeSizeTokens combinedMappings.typeSizes
-        , typeFaces = defaultTypeFaceTokens combinedMappings.typeFaces
-        , typeWeights = defaultTypeWeightTokens combinedMappings.typeWeights
-        , typeTrackings = defaultTypeTrackingTokens combinedMappings.typeTrackings
-        , borderRadii = defaultBorderRadiusTokens combinedMappings.borderRadii
-        }
+    { colors = defaultColorTokens combinedMappings.colors
+    , spaces = defaultSpaceTokens combinedMappings.spaces
+    , typeSizes = defaultTypeSizeTokens combinedMappings.typeSizes
+    , typeFaces = defaultTypeFaceTokens combinedMappings.typeFaces
+    , typeWeights = defaultTypeWeightTokens combinedMappings.typeWeights
+    , typeTrackings = defaultTypeTrackingTokens combinedMappings.typeTrackings
+    , borderRadii = defaultBorderRadiusTokens combinedMappings.borderRadii
+    }
 
 
-errorColor : Color.Color
+errorColor : Color
 errorColor =
-    Color.rgb 255 132 0
+    rgb255 255 132 0
 
 
-colorFor : Theme -> String -> Color.Color
+colorFor : Theme -> String -> Color
 colorFor theme key =
     valueForKey theme.colors errorColor key
 

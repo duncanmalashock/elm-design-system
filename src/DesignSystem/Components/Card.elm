@@ -61,6 +61,7 @@ cardView theme card =
             el
                 [ width fill
                 , height (px 200)
+                , Background.color (colorFor theme "cardBg")
                 , Background.image card.thumbnailUrl
                 ]
                 none
