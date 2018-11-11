@@ -1,11 +1,15 @@
-module DesignSystem.Components.Tag exposing (..)
+module DesignSystem.Components.Tag exposing
+    ( Tag
+    , Theme
+    , view
+    )
 
-import DesignSystem.Tokens exposing (..)
-import DesignSystem.Theme exposing (..)
+import DesignSystem.Theme as Theme
 import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
-import Element.Font as Font
+import Element.Font as Font exposing (Font)
+import Element.Input exposing (button)
 
 
 type alias Tag =
@@ -14,45 +18,32 @@ type alias Tag =
     }
 
 
-tagView : Theme -> Tag -> Element msg
-tagView theme tag =
-    el
-        ([ Background.color (colorFor theme "tagBg")
-         , paddingXY
-            (spaceFor theme "tagPaddingX")
-            (spaceFor theme "tagPaddingY")
-         , Border.rounded (borderRadiusFor theme "tag")
-         , Font.family (typeFaceFor theme "tag")
-         , Font.size (typeSizeFor theme "tag")
-         , Font.color (colorFor theme "tagText")
-         ]
-        )
-        (text tag.name)
-
-
-defaultThemeMappings : ThemeMappings
-defaultThemeMappings =
-    { colors =
-        [ ( "tagBg", mapToKey "gray" )
-        , ( "tagText", mapToKey "gray-d3" )
-        ]
-    , spaces =
-        [ ( "tagPaddingX", mapToKey "s" )
-        , ( "tagPaddingY", mapToKey "s" )
-        , ( "tagsSpacingX", mapToKey "s" )
-        , ( "tagsSpacingY", mapToKey "s" )
-        ]
-    , typeSizes =
-        [ ( "tag", mapToKey "s" )
-        ]
-    , typeFaces =
-        [ ( "tag", mapToKey "sans1" )
-        ]
-    , typeWeights =
-        [ ( "tag", mapToKey "regular" )
-        ]
-    , typeTrackings = []
-    , borderRadii =
-        [ ( "tag", mapToKey "medium" )
-        ]
+type alias Theme palette =
+    { bgColor : palette -> Color
+    , paddingX : palette -> Int
+    , paddingY : palette -> Int
+    , borderRadius : palette -> Int
+    , typeFace : palette -> List Font
+    , typeSize : palette -> Int
+    , textColor : palette -> Color
     }
+
+
+view :
+    Theme.Theme palette { a | tag : Theme palette }
+    -> Tag
+    -> Element msg
+view theme tag =
+    button
+        [ Background.color (Theme.value theme.tag.bgColor theme)
+        , paddingXY
+            (Theme.value theme.tag.paddingX theme)
+            (Theme.value theme.tag.paddingY theme)
+        , Border.rounded (Theme.value theme.tag.borderRadius theme)
+        , Font.family (Theme.value theme.tag.typeFace theme)
+        , Font.size (Theme.value theme.tag.typeSize theme)
+        , Font.color (Theme.value theme.tag.textColor theme)
+        ]
+        { onPress = Nothing
+        , label = text tag.name
+        }

@@ -1,11 +1,16 @@
-module DesignSystem.Components.Card exposing (..)
+module DesignSystem.Components.Card exposing
+    ( Card
+    , Theme
+    , view
+    )
 
-import DesignSystem.Tokens exposing (..)
-import DesignSystem.Theme exposing (..)
-import DesignSystem.Components.Headers exposing (..)
-import DesignSystem.Components.Tag exposing (..)
-import DesignSystem.Components.Button exposing (..)
+import DesignSystem.Components.BodyText as BodyText exposing (..)
+import DesignSystem.Components.Button as Button exposing (..)
+import DesignSystem.Components.H3 as H3 exposing (..)
+import DesignSystem.Components.H4 as H4 exposing (..)
+import DesignSystem.Components.Tag as Tag exposing (..)
 import DesignSystem.Layout.InlineContainer exposing (inlineContainer)
+import DesignSystem.Theme as Theme
 import Element exposing (..)
 import Element.Background as Background
 
@@ -19,49 +24,37 @@ type alias Card =
     }
 
 
-dummyCard : Card
-dummyCard =
-    { category = "Video"
-    , thumbnailUrl = "https://upload.wikimedia.org/wikipedia/commons/0/00/Crab_Nebula.jpg"
-    , title = "Supernova"
-    , description = "An astronomical event that occurs during the last stages of a massive star's life."
-    , tags =
-        [ { name = "Galaxies", id = 1 }
-        , { name = "Milky Way", id = 2 }
-        , { name = "Speed of Light", id = 3 }
-        ]
+type alias Theme palette =
+    { bgColor : palette -> Color
+    , paddingX : palette -> Int
+    , paddingY : palette -> Int
+    , contentSpacing : palette -> Int
+    , headerSpacing : palette -> Int
+    , thumbnailHeight : palette -> Int
+    , tagsSpacingX : palette -> Int
+    , tagsSpacingY : palette -> Int
     }
 
 
-defaultThemeMappings : ThemeMappings
-defaultThemeMappings =
-    { colors =
-        [ ( "cardBg", mapToKey "gray-l2" )
-        ]
-    , spaces =
-        [ ( "cardPaddingX", mapToKey "m" )
-        , ( "cardPaddingY", mapToKey "m" )
-        , ( "cardsSpacingX", mapToKey "l" )
-        , ( "cardsSpacingY", mapToKey "l" )
-        , ( "cardContentSpacing", mapToKey "m" )
-        , ( "cardHeaderSpacing", mapToKey "s" )
-        ]
-    , typeSizes = []
-    , typeFaces = []
-    , typeWeights = []
-    , typeTrackings = []
-    , borderRadii = []
-    }
-
-
-cardView : Theme -> Card -> Element msg
-cardView theme card =
+view :
+    Theme.Theme palette
+        { a
+            | card : Theme palette
+            , button : Button.Theme palette
+            , h3 : H3.Theme palette
+            , h4 : H4.Theme palette
+            , tag : Tag.Theme palette
+            , bodyText : BodyText.Theme palette
+        }
+    -> Card
+    -> Element msg
+view theme card =
     let
         thumbnailView =
             el
                 [ width fill
-                , height (px 200)
-                , Background.color (colorFor theme "cardBg")
+                , height (px <| Theme.value theme.card.thumbnailHeight theme)
+                , Background.color <| Theme.value theme.card.bgColor theme
                 , Background.image card.thumbnailUrl
                 ]
                 none
@@ -69,17 +62,16 @@ cardView theme card =
         bodyView =
             el
                 [ width fill
-                , Background.color (colorFor theme "cardBg")
+                , Background.color <| Theme.value theme.card.bgColor theme
                 , paddingXY
-                    (spaceFor theme "cardPaddingX")
-                    (spaceFor theme "cardPaddingY")
+                    (Theme.value theme.card.paddingX theme)
+                    (Theme.value theme.card.paddingY theme)
                 ]
-                (column [ spacing (spaceFor theme "cardContentSpacing") ]
-                    [ (column [ spacing (spaceFor theme "cardHeaderSpacing") ]
+                (column [ spacing (Theme.value theme.card.contentSpacing theme) ]
+                    [ column [ spacing (Theme.value theme.card.headerSpacing theme) ]
                         [ categoryView
                         , titleView
                         ]
-                      )
                     , descriptionView
                     , tagsView
                     , buttonView theme "View"
@@ -87,20 +79,20 @@ cardView theme card =
                 )
 
         categoryView =
-            header3 theme card.category
+            H3.view theme card.category
 
         titleView =
-            header4 theme card.title
+            H4.view theme card.title
 
         descriptionView =
-            bodyText theme card.description
+            BodyText.view theme card.description
 
         tagsView =
-            inlineContainer (List.map (tagView theme) card.tags)
-                (spaceFor theme "tagsSpacingX")
-                (spaceFor theme "tagsSpacingY")
+            inlineContainer (List.map (Tag.view theme) card.tags)
+                (Theme.value theme.card.tagsSpacingX theme)
+                (Theme.value theme.card.tagsSpacingY theme)
     in
-        column [ width fill ]
-            [ thumbnailView
-            , bodyView
-            ]
+    column [ width fill ]
+        [ thumbnailView
+        , bodyView
+        ]

@@ -1,14 +1,13 @@
 module DesignSystem.Editor exposing (editor)
 
-import DesignSystem.Theme as Theme exposing (..)
 import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font
 
 
-editor : Theme -> Element msg
-editor theme =
+editor : Element msg
+editor =
     el
         [ width (px 300)
         , Background.color (rgb255 240 240 240)

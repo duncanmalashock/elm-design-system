@@ -1,9 +1,7 @@
-module DesignSystem.Tokens.Typography.Weight exposing (..)
+module DesignSystem.Weight exposing (Weight(..), toAttribute)
 
-import DesignSystem.Tokens exposing (..)
-import Element exposing (Attribute)
+import Element
 import Element.Font as Font
-import Dict
 
 
 type Weight
@@ -18,22 +16,7 @@ type Weight
     | Hairline
 
 
-defaultTypeWeightTokens : Mappings Weight -> Tokens Weight
-defaultTypeWeightTokens mappings =
-    let
-        mappingsLookup =
-            Dict.fromList mappings
-
-        valuesLookup =
-            Dict.fromList
-                [ ( "regular", Regular )
-                , ( "bold", Bold )
-                ]
-    in
-        Tokens mappingsLookup valuesLookup
-
-
-toAttribute : Weight -> Attribute msg
+toAttribute : Weight -> Element.Attribute msg
 toAttribute weight =
     case weight of
         Heavy ->
