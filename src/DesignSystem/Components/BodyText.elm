@@ -7,6 +7,7 @@ import DesignSystem.Layout.TextBlock exposing (textBlock)
 import DesignSystem.Theme as Theme
 import Element exposing (..)
 import Element.Font as Font exposing (Font)
+import Html.Attributes exposing (style)
 
 
 view :
@@ -18,6 +19,7 @@ view theme content =
         [ Font.family (Theme.value theme.bodyText.typeFace theme)
         , Font.size (Theme.value theme.bodyText.typeSize theme)
         , Font.color (Theme.value theme.bodyText.textColor theme)
+        , Element.spacing 4
         ]
         [ text content ]
 

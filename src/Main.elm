@@ -15,6 +15,8 @@ import Element exposing (..)
 import Element.Background as Background
 import Element.Font as Font
 import Html exposing (Html, div)
+import Palette exposing (Palette, palette)
+import Theme exposing (Subthemes, theme)
 
 
 main : Program () Model Msg
@@ -37,182 +39,10 @@ type Msg
 
 init : () -> ( Model, Cmd Msg )
 init flags =
-    ( { theme = myTheme
+    ( { theme = theme
       }
     , Cmd.none
     )
-
-
-type alias Palette =
-    { color :
-        { grayL3 : Color
-        , grayL2 : Color
-        , grayL1 : Color
-        , grayBase : Color
-        , grayD1 : Color
-        , grayD2 : Color
-        , grayD3 : Color
-        , primaryBase : Color
-        }
-    , space :
-        { xs : Int
-        , s : Int
-        , m : Int
-        , l : Int
-        , xl : Int
-        }
-    , font :
-        { face :
-            { lato : List Font.Font
-            }
-        , size :
-            { s : Int
-            , m : Int
-            , l : Int
-            }
-        , weight :
-            { medium : Weight
-            , bold : Weight
-            , extraBold : Weight
-            }
-        , tracking :
-            { wide : Float
-            , normal : Float
-            }
-        }
-    , borderRadius :
-        { tight : Int
-        }
-    , misc :
-        { thumbnailHeight : Int
-        }
-    }
-
-
-myPalette : Palette
-myPalette =
-    { color =
-        { grayL3 = rgb255 255 255 255
-        , grayL2 = rgb255 226 228 234
-        , grayL1 = rgb255 196 201 212
-        , grayBase = rgb255 124 135 160
-        , grayD1 = rgb255 90 97 118
-        , grayD2 = rgb255 42 47 60
-        , grayD3 = rgb255 32 36 44
-        , primaryBase = rgb255 46 104 160
-        }
-    , space =
-        { xs = 4
-        , s = 8
-        , m = 16
-        , l = 32
-        , xl = 64
-        }
-    , font =
-        { face =
-            { lato =
-                [ Font.typeface "Lato"
-                , Font.sansSerif
-                ]
-            }
-        , size =
-            { s = 15
-            , m = 17
-            , l = 22
-            }
-        , weight =
-            { medium = Weight.Medium
-            , bold = Weight.Bold
-            , extraBold = Weight.ExtraBold
-            }
-        , tracking =
-            { wide = 0.75
-            , normal = 0.0
-            }
-        }
-    , borderRadius =
-        { tight = 4
-        }
-    , misc =
-        { thumbnailHeight = 200
-        }
-    }
-
-
-myTheme : Theme Palette Subthemes
-myTheme =
-    { palette = myPalette
-    , page =
-        { padding = .space >> .xl
-        , bgColor = .color >> .grayD2
-        , cardSpacingX = .space >> .l
-        , cardSpacingY = .space >> .l
-        }
-    , card =
-        { bgColor = .color >> .grayL2
-        , paddingX = .space >> .m
-        , paddingY = .space >> .m
-        , contentSpacing = .space >> .m
-        , headerSpacing = .space >> .xs
-        , thumbnailHeight = .misc >> .thumbnailHeight
-        , tagsSpacingX = .space >> .s
-        , tagsSpacingY = .space >> .s
-        }
-    , button =
-        { primaryBgColor = .color >> .primaryBase
-        , paddingX = .space >> .l
-        , paddingY = .space >> .m
-        , borderRadius = .borderRadius >> .tight
-        , typeFace = .font >> .face >> .lato
-        , typeSize = .font >> .size >> .m
-        , textColor = .color >> .grayL3
-        , typeWeight = .font >> .weight >> .bold
-        }
-    , bodyText =
-        { typeFace = .font >> .face >> .lato
-        , typeSize = .font >> .size >> .s
-        , textColor = .color >> .grayD1
-        }
-    , h3 =
-        { typeFace = .font >> .face >> .lato
-        , typeSize = .font >> .size >> .s
-        , textColor = .color >> .grayBase
-        , typeWeight = .font >> .weight >> .extraBold
-        , typeTracking = .font >> .tracking >> .wide
-        }
-    , h4 =
-        { typeFace = .font >> .face >> .lato
-        , typeSize = .font >> .size >> .l
-        , textColor = .color >> .grayD3
-        , typeWeight = .font >> .weight >> .bold
-        , typeTracking = .font >> .tracking >> .normal
-        }
-    , tag =
-        { bgColor = .color >> .grayL1
-        , paddingX = .space >> .s
-        , paddingY = .space >> .s
-        , textColor = .color >> .grayD3
-        , typeFace = .font >> .face >> .lato
-        , typeSize = .font >> .size >> .s
-        , borderRadius = .borderRadius >> .tight
-        }
-    }
-
-
-type alias Subthemes =
-    { page :
-        { padding : Palette -> Int
-        , bgColor : Palette -> Color
-        , cardSpacingX : Palette -> Int
-        , cardSpacingY : Palette -> Int
-        }
-    , card : Card.Theme Palette
-    , button : Button.Theme Palette
-    , bodyText : BodyText.Theme Palette
-    , h3 : H3.Theme Palette
-    , h4 : H4.Theme Palette
-    , tag : Tag.Theme Palette
-    }
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -234,13 +64,13 @@ view model =
             [ padding (Theme.value theme.page.padding theme)
             , Background.color (Theme.value theme.page.bgColor theme)
 
-            -- , inFront <| Editor.editor myTheme
+            -- , inFront <| Editor.editor theme
             ]
             (el
                 [ width fill
                 , alignTop
                 ]
-                (cardsView myTheme cards)
+                (cardsView theme cards)
             )
         ]
     }

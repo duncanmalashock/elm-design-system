@@ -10,6 +10,7 @@ import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font exposing (Font)
 import Element.Input exposing (button)
+import Html.Attributes exposing (style)
 
 
 buttonView : Theme.Theme palette { a | button : Theme palette } -> String -> Element msg
@@ -24,6 +25,14 @@ buttonView theme buttonText =
         , Weight.toAttribute <| Theme.value theme.button.typeWeight theme
         , Font.size (Theme.value theme.button.typeSize theme)
         , Font.color (Theme.value theme.button.textColor theme)
+        , htmlAttribute <|
+            style "transition"
+                ("background-color "
+                    ++ Theme.value theme.button.hoverTransition theme
+                )
+        , mouseOver
+            [ Background.color (Theme.value theme.button.primaryBgHoverColor theme)
+            ]
         ]
         { onPress = Nothing
         , label = text buttonText
@@ -32,6 +41,8 @@ buttonView theme buttonText =
 
 type alias Theme palette =
     { primaryBgColor : palette -> Color
+    , primaryBgHoverColor : palette -> Color
+    , hoverTransition : palette -> String
     , paddingX : palette -> Int
     , paddingY : palette -> Int
     , borderRadius : palette -> Int

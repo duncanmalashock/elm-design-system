@@ -10,6 +10,7 @@ import Element.Background as Background
 import Element.Border as Border
 import Element.Font as Font exposing (Font)
 import Element.Input exposing (button)
+import Html.Attributes exposing (style)
 
 
 type alias Tag =
@@ -20,6 +21,8 @@ type alias Tag =
 
 type alias Theme palette =
     { bgColor : palette -> Color
+    , bgHoverColor : palette -> Color
+    , hoverTransition : palette -> String
     , paddingX : palette -> Int
     , paddingY : palette -> Int
     , borderRadius : palette -> Int
@@ -43,6 +46,14 @@ view theme tag =
         , Font.family (Theme.value theme.tag.typeFace theme)
         , Font.size (Theme.value theme.tag.typeSize theme)
         , Font.color (Theme.value theme.tag.textColor theme)
+        , htmlAttribute <|
+            style "transition"
+                ("background-color "
+                    ++ Theme.value theme.tag.hoverTransition theme
+                )
+        , mouseOver
+            [ Background.color (Theme.value theme.tag.bgHoverColor theme)
+            ]
         ]
         { onPress = Nothing
         , label = text tag.name
