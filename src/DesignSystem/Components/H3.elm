@@ -22,7 +22,7 @@ view theme content =
         , Font.letterSpacing (Theme.value theme.h3.typeTracking theme)
         , Font.color (Theme.value theme.h3.textColor theme)
         ]
-        [ text <| String.toUpper content ]
+        [ text content ]
 
 
 type alias Theme palette =

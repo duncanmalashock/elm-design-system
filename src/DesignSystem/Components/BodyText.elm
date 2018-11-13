@@ -19,7 +19,7 @@ view theme content =
         [ Font.family (Theme.value theme.bodyText.typeFace theme)
         , Font.size (Theme.value theme.bodyText.typeSize theme)
         , Font.color (Theme.value theme.bodyText.textColor theme)
-        , Element.spacing 4
+        , Element.spacing 8
         ]
         [ text content ]
 

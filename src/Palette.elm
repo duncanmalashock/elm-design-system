@@ -54,7 +54,8 @@ type alias Palette =
         { tight : Int
         }
     , transition :
-        { medium : String
+        { none : String
+        , medium : String
         }
     , misc :
         { thumbnailHeight : Int
@@ -84,10 +85,10 @@ palette =
             , base = rgb255 184 196 206
             , d1 = rgb255 136 149 167
             , d2 = rgb255 95 107 122
-            , d3 = rgb255 33 41 52
+            , d3 = rgb255 40 50 60
             }
         , primary =
-            { l3 = rgb255 240 248 255
+            { l3 = rgb255 221 238 251
             , l2 = rgb255 171 211 245
             , l1 = rgb255 99 162 216
             , base = rgb255 48 131 200
@@ -133,11 +134,11 @@ palette =
             }
         }
     , space =
-        { xs = 4
-        , s = 8
-        , m = 16
-        , l = 32
-        , xl = 64
+        { xs = 5
+        , s = 12
+        , m = 18
+        , l = 30
+        , xl = 80
         }
     , font =
         { face =
@@ -152,8 +153,8 @@ palette =
             }
         , size =
             { s = 15
-            , m = 18
-            , l = 22
+            , m = 17
+            , l = 20
             }
         , weight =
             { medium = Weight.Medium
@@ -162,14 +163,15 @@ palette =
             }
         , tracking =
             { wide = 0.75
-            , normal = 0.0
+            , normal = 0.2
             }
         }
     , borderRadius =
-        { tight = 4
+        { tight = 6
         }
     , transition =
-        { medium = "0.1s ease-in-out"
+        { none = "0.0s ease-in-out"
+        , medium = "0.1s ease-in-out"
         }
     , misc =
         { thumbnailHeight = 200

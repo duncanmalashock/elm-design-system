@@ -74,7 +74,8 @@ view theme card =
                         ]
                     , descriptionView
                     , tagsView
-                    , buttonView theme "View"
+
+                    -- , buttonView theme "View"
                     ]
                 )
 
