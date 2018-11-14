@@ -7,6 +7,7 @@ import DesignSystem.Components.H3 as H3
 import DesignSystem.Components.H4 as H4
 import DesignSystem.Components.Modal as Modal
 import DesignSystem.Components.Tag as Tag
+import DesignSystem.Shadow as Shadow
 import DesignSystem.Theme exposing (Theme)
 import DesignSystem.Weight as Weight exposing (Weight)
 import Element exposing (..)
@@ -45,7 +46,7 @@ theme =
         , dangerBgColor = .color >> .danger >> .l3
         , dangerBgHoverColor = .color >> .danger >> .l2
         , dangerTextColor = .color >> .danger >> .base
-        , dangerHoverTextColor = .color >> .danger >> .d2
+        , dangerHoverTextColor = .color >> .danger >> .d3
         , hoverTransition = .transition >> .none
         , paddingX = .space >> .m
         , paddingY = .space >> .s
@@ -92,7 +93,16 @@ theme =
         , actionsPaddingX = .space >> .m
         , actionsPaddingY = .space >> .s
         , topHighlightColor = .color >> .danger >> .base
+        , topHighlightWidth = .space >> .xs
+        , iconColor = .color >> .danger >> .base
         , actionsBgColor = .color >> .neutral >> .l3
+        , headerBodySpacing = .space >> .m
+        , iconTextSpacing = .space >> .m
+        , buttonSpacing = .space >> .s
+        , shadowSpread = .shadow >> .large
+        , shadowColor = .color >> .primary >> .d3
+        , shadowOpacity = .opacity >> .light
+        , width = .misc >> .modalWidth
         }
     }
 

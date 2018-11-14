@@ -7,6 +7,7 @@ module DesignSystem.Components.Modal exposing
 import DesignSystem.Components.BodyText as BodyText exposing (..)
 import DesignSystem.Components.Button as Button exposing (..)
 import DesignSystem.Components.H3 as H3 exposing (..)
+import DesignSystem.Shadow as Shadow
 import DesignSystem.Theme as Theme
 import Element exposing (..)
 import Element.Background as Background
@@ -29,8 +30,17 @@ type alias Theme palette =
     , bodyPaddingY : palette -> Int
     , actionsPaddingX : palette -> Int
     , actionsPaddingY : palette -> Int
+    , topHighlightWidth : palette -> Int
     , topHighlightColor : palette -> Color
+    , iconColor : palette -> Color
     , actionsBgColor : palette -> Color
+    , headerBodySpacing : palette -> Int
+    , iconTextSpacing : palette -> Int
+    , buttonSpacing : palette -> Int
+    , shadowSpread : palette -> Shadow.Spread
+    , shadowColor : palette -> Color
+    , shadowOpacity : palette -> Float
+    , width : palette -> Int
     }
 
 
@@ -55,12 +65,18 @@ view theme modal =
                 , Background.color <| Theme.value theme.modal.bgColor theme
                 ]
                 (row
-                    [ spacing 16
+                    [ spacing <| Theme.value theme.modal.iconTextSpacing theme
                     ]
-                    [ el [ alignTop ] iconView
+                    [ el [ alignTop ]
+                        (iconView <|
+                            Theme.value theme.modal.iconColor theme
+                        )
                     , column
                         [ width fill
-                        , spacing 15
+                        , spacing <|
+                            Theme.value
+                                theme.modal.headerBodySpacing
+                                theme
                         ]
                         [ titleView
                         , descriptionView
@@ -68,14 +84,29 @@ view theme modal =
                     ]
                 )
 
-        iconView =
+        iconView color =
+            let
+                { alpha, red, green, blue } =
+                    toRgb color
+            in
             html
                 (svg
                     [ viewBox "0 0 20 20"
                     , Svg.width "20"
-                    , Svg.fill "RGB(220, 48, 48)"
+                    , Svg.fill <|
+                        "RGB("
+                            ++ (List.map ((*) 255 >> round >> String.fromInt)
+                                    [ red, green, blue ]
+                                    |> String.join ","
+                               )
+                            ++ ")"
                     ]
-                    [ path [ d "M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 5h2v6H9V5zm0 8h2v2H9v-2z" ]
+                    [ path [ d """
+                                M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0
+                                1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 
+                                8 0 0 0 11.32 11.32zM9 5h2v6H9V5zm0 
+                                8h2v2H9v-2z
+                               """ ]
                         []
                     ]
                 )
@@ -86,11 +117,12 @@ view theme modal =
                 , paddingXY
                     (Theme.value theme.modal.actionsPaddingX theme)
                     (Theme.value theme.modal.actionsPaddingY theme)
-                , Background.color <| Theme.value theme.modal.actionsBgColor theme
+                , Background.color <|
+                    Theme.value theme.modal.actionsBgColor theme
                 ]
                 (row
                     [ alignRight
-                    , spacing 10
+                    , spacing <| Theme.value theme.modal.buttonSpacing theme
                     ]
                     [ buttonView theme
                         { labelText = "Cancel"
@@ -110,20 +142,20 @@ view theme modal =
             BodyText.view theme modal.body
     in
     el
-        [ width <| px 500
+        [ width <| px (Theme.value theme.modal.width theme)
         , Border.widthEach
-            { top = 4
+            { top = Theme.value theme.modal.topHighlightWidth theme
             , left = 0
             , bottom = 0
             , right = 0
             }
         , Border.color <| Theme.value theme.modal.topHighlightColor theme
         , Border.shadow
-            { offset = ( 0, 10 )
-            , size = 0
-            , blur = 40
-            , color = rgba255 0 0 0 0.2
-            }
+            (Shadow.shadow
+                (Theme.value theme.modal.shadowSpread theme)
+                (Theme.value theme.modal.shadowColor theme)
+                (Theme.value theme.modal.shadowOpacity theme)
+            )
         ]
         (column [ width fill ]
             [ bodyView

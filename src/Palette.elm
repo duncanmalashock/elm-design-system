@@ -1,5 +1,6 @@
 module Palette exposing (Palette, palette)
 
+import DesignSystem.Shadow as Shadow
 import DesignSystem.Weight as Weight exposing (Weight)
 import Element exposing (..)
 import Element.Font as Font
@@ -36,7 +37,8 @@ type alias Palette =
             , proximaBold : List Font.Font
             }
         , size :
-            { s : Int
+            { xs : Int
+            , s : Int
             , m : Int
             , l : Int
             }
@@ -53,12 +55,18 @@ type alias Palette =
     , borderRadius :
         { tight : Int
         }
+    , shadow :
+        { large : Shadow.Spread
+        }
     , transition :
         { none : String
         , medium : String
         }
+    , opacity :
+        { light : Float }
     , misc :
         { thumbnailHeight : Int
+        , modalWidth : Int
         }
     }
 
@@ -134,7 +142,7 @@ palette =
             }
         }
     , space =
-        { xs = 5
+        { xs = 4
         , s = 12
         , m = 18
         , l = 30
@@ -152,7 +160,8 @@ palette =
                 ]
             }
         , size =
-            { s = 15
+            { xs = 13
+            , s = 15
             , m = 17
             , l = 20
             }
@@ -169,11 +178,21 @@ palette =
     , borderRadius =
         { tight = 6
         }
+    , shadow =
+        { large =
+            { offset = ( 0, 10 )
+            , size = 0
+            , blur = 40
+            }
+        }
     , transition =
         { none = "0.0s ease-in-out"
         , medium = "0.1s ease-in-out"
         }
+    , opacity =
+        { light = 0.2 }
     , misc =
         { thumbnailHeight = 200
+        , modalWidth = 500
         }
     }
