@@ -1,4 +1,4 @@
-module DesignSystem.Weight exposing (Weight(..), toAttribute)
+module DesignSystem.Values.Weight exposing (Weight(..), toAttribute)
 
 import Element
 import Element.Font as Font

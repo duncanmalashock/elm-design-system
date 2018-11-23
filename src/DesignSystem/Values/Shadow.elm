@@ -1,4 +1,4 @@
-module DesignSystem.Shadow exposing (Shadow, Spread, shadow)
+module DesignSystem.Values.Shadow exposing (Shadow, Spread, shadow)
 
 import Element exposing (Color)
 

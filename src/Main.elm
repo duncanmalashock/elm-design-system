@@ -11,7 +11,7 @@ import DesignSystem.Components.Tag as Tag exposing (..)
 import DesignSystem.Editor as Editor
 import DesignSystem.Layout.Grid exposing (grid)
 import DesignSystem.Theme as Theme exposing (Theme)
-import DesignSystem.Weight as Weight exposing (Weight)
+import DesignSystem.Values.Weight as Weight exposing (Weight)
 import Element exposing (..)
 import Element.Background as Background
 import Element.Font as Font

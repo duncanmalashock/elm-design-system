@@ -6,7 +6,7 @@ module DesignSystem.Components.Button exposing
     )
 
 import DesignSystem.Theme as Theme
-import DesignSystem.Weight as Weight exposing (Weight)
+import DesignSystem.Values.Weight as Weight exposing (Weight)
 import Element exposing (..)
 import Element.Background as Background
 import Element.Border as Border

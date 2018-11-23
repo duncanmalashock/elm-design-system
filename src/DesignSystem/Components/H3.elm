@@ -5,7 +5,7 @@ module DesignSystem.Components.H3 exposing
 
 import DesignSystem.Layout.TextBlock exposing (textBlock)
 import DesignSystem.Theme as Theme
-import DesignSystem.Weight as Weight exposing (Weight)
+import DesignSystem.Values.Weight as Weight exposing (Weight)
 import Element exposing (..)
 import Element.Font as Font exposing (Font)
 

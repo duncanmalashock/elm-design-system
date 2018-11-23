@@ -1,7 +1,7 @@
 module Palette exposing (Palette, palette)
 
-import DesignSystem.Shadow as Shadow
-import DesignSystem.Weight as Weight exposing (Weight)
+import DesignSystem.Values.Shadow as Shadow
+import DesignSystem.Values.Weight as Weight exposing (Weight)
 import Element exposing (..)
 import Element.Font as Font
 

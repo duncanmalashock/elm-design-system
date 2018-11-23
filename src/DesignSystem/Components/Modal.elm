@@ -7,7 +7,7 @@ module DesignSystem.Components.Modal exposing
 import DesignSystem.Components.BodyText as BodyText exposing (..)
 import DesignSystem.Components.Button as Button exposing (..)
 import DesignSystem.Components.H3 as H3 exposing (..)
-import DesignSystem.Shadow as Shadow
+import DesignSystem.Values.Shadow as Shadow
 import DesignSystem.Theme as Theme
 import Element exposing (..)
 import Element.Background as Background

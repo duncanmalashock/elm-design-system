@@ -7,9 +7,9 @@ import DesignSystem.Components.H3 as H3
 import DesignSystem.Components.H4 as H4
 import DesignSystem.Components.Modal as Modal
 import DesignSystem.Components.Tag as Tag
-import DesignSystem.Shadow as Shadow
 import DesignSystem.Theme exposing (Theme)
-import DesignSystem.Weight as Weight exposing (Weight)
+import DesignSystem.Values.Shadow as Shadow
+import DesignSystem.Values.Weight as Weight exposing (Weight)
 import Element exposing (..)
 import Element.Font as Font
 import Palette exposing (Palette, palette)
