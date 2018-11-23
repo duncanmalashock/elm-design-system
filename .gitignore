@@ -1,3 +1,4 @@
 js/**/*
 elm-stuff/**/*
 .vscode
+.DS_Store
